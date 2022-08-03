@@ -31,17 +31,21 @@ def exp2(b,n)
     end
 
 end
-require 'byebug'
 #go through each ele of arr
 #dup each subarray
 def deepdup(arr)
-    debugger
-    return [arr].dup if !arr.is_a?(Array)
-    flatten = []
-    arr.each do |subarray| #nbw
-        subarray[0] << deepdup(subarray[1..-1])
+
+    copy = []
+    arr.each do |ele| #nbw
+        if ele.is_a?(Array)
+            copy << deepdup(ele)
+
+        else
+            copy << ele.dup
+        end
+
     end
-    flatten
+    copy
 end
 
 
@@ -49,7 +53,18 @@ robot_parts = [
     ["nuts", "bolts", "washers"],
     ["capacitors", "resistors", "inductors"]
 ]
-p deepdup(robot_parts)
+
+arr_1 = deepdup(robot_parts)
+
+
+
+robot_parts[1] << "LEDs"
+
+robot_parts[0][0] += "a"
+p robot_parts
+p arr_1
+p robot_parts[0][0].object_id
+p arr_1[0][0].object_id
 
 robot_parts_copy = robot_parts.dup
 
